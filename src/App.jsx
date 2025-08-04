@@ -1,35 +1,36 @@
 import React, { Component } from 'react';
 import './App.css';
-
 class App extends Component {
-  menuClick(){
-    const navlist = document.getElementById("navlist");
-    //navlist.style.display = "block";
-    navlist.classList.toggle("active");
+  constructor() {
+    super();
+    this.state = {index: 0, slideCount: 3};
+    this.autoSlide = this.autoSlide.bind(this);
+  }
+  componentDidMount() {
+    this.interval = setInterval(this.autoSlide, 3000);
+  }
+  autoSlide(){
+    let nextIndex = (this.state.index + 1) % this.state.slideCount; 
+    document.getElementById("slideRef").style.transform = `translateX(-${nextIndex * 100}%)`;
+    this.setState({index: nextIndex});
   }
   render() {
+    const{index, slideCount} = this.state;
     return (
       <>
-      <header>
-        <nav> 
-          <div className='logo'> Kohi club</div>
-          <ul id="navlist">
-            <li>Home</li>
-            <li>About</li>
-            <li>contact</li>
-          </ul>
-          <div className='menu' onClick={()=>this.menuClick()}>&#9776;
+        <header>
+          <div className='logo'>Sliding Page - Slide {index}</div>
+        </header>
+        <section>
+          <div className='slider'>
+            <div className='slides' id='slideRef'>
+              <div className='slide s1'></div>
+              <div className='slide s2'></div>
+              <div className='slide s3'></div>
+            </div>
           </div>
-        </nav>
-      </header>
-      <section>
-       <h1> Welcome to explore my website </h1>
-       <p> Explore the web..</p>
-       <p>The story of mine...</p>
-      </section>
-      <footer>....All is well@Do it well....</footer>
-
-        
+        </section>
+        <footer>Copyright @ 2025. All rights reserved.</footer>
       </>
     );
   }
